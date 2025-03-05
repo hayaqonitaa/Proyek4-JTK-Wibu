@@ -10,6 +10,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -20,9 +21,7 @@ import java.io.File
 
 @Composable
 fun ProfileScreen(viewModel: ProfileViewModel = hiltViewModel()) {
-    // Use collectAsState with an initial value of null.
-    val profileImagePathState = viewModel.profileImagePath.collectAsState(initial = null)
-    val profileImagePath = profileImagePathState.value
+    val profileImagePath by viewModel.profileImagePath.collectAsState(initial = null)
 
     val imagePickerLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetContent()
@@ -36,9 +35,8 @@ fun ProfileScreen(viewModel: ProfileViewModel = hiltViewModel()) {
         verticalArrangement = Arrangement.Center
     ) {
         if (profileImagePath != null) {
-            // Use File(profileImagePath) after ensuring profileImagePath is not null.
             AsyncImage(
-                model = File(profileImagePath),
+                model = File(profileImagePath).absolutePath + "?${System.currentTimeMillis()}", // Paksa refresh gambar
                 contentDescription = "Profile Image",
                 modifier = Modifier.size(120.dp)
             )

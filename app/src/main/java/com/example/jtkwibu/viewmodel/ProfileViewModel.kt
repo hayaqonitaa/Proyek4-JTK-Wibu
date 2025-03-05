@@ -18,7 +18,7 @@ class ProfileViewModel @Inject constructor(
     private val repository: AnimeRepository,
     @ApplicationContext private val context: Context
 ) : ViewModel() {
-    // Holds the current profile image path.
+
     private val _profileImagePath = MutableStateFlow<String?>(null)
     val profileImagePath = _profileImagePath.asStateFlow()
 
@@ -30,13 +30,17 @@ class ProfileViewModel @Inject constructor(
 
     fun setProfileImage(uri: Uri) {
         viewModelScope.launch {
-            val file = File(context.filesDir, "profile_image.jpg")
+            val file = File(context.filesDir, "profile_image_${System.currentTimeMillis()}.jpg") // Nama unik agar tidak cached
             context.contentResolver.openInputStream(uri)?.use { input ->
                 file.outputStream().use { output ->
                     input.copyTo(output)
                 }
             }
+
             repository.saveProfileImagePath(file.absolutePath)
+
+            kotlinx.coroutines.delay(100)
+
             _profileImagePath.value = file.absolutePath
         }
     }
