@@ -32,6 +32,7 @@ import com.example.jtkwibu.viewmodel.HomeViewModel
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.runtime.rememberUpdatedState
 
 @Composable
 fun HomeScreen(
@@ -58,11 +59,6 @@ fun HomeScreen(
 @Composable
 fun NetflixAnimeItem(anime: AnimeEntity, onClick: () -> Unit, viewModel: HomeViewModel = hiltViewModel()) {
     val isBookmarked = remember { mutableStateOf(anime.isBookmarked) }
-
-    // Pastikan state diperbarui saat data berubah
-    LaunchedEffect(anime.isBookmarked) {
-        isBookmarked.value = anime.isBookmarked
-    }
 
     Card(
         modifier = Modifier
@@ -118,4 +114,3 @@ fun NetflixAnimeItem(anime: AnimeEntity, onClick: () -> Unit, viewModel: HomeVie
         }
     }
 }
-

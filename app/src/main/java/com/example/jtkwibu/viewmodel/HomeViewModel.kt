@@ -21,13 +21,15 @@ class HomeViewModel @Inject constructor(
 
     val animeList = repository.getTopAnime().cachedIn(viewModelScope)
 
-    val bookmarkedAnime = repository.getBookmarkedAnime().stateIn(
-        viewModelScope, SharingStarted.Lazily, emptyList()
-    )
+    val bookmarkedAnime = repository.getBookmarkedAnime()
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
+
 
     fun toggleBookmark(animeId: Int, isBookmarked: Boolean) {
         viewModelScope.launch {
             repository.setBookmark(animeId, isBookmarked)
         }
     }
+
+
 }
