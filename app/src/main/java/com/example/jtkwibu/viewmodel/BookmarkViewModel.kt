@@ -14,7 +14,7 @@ class BookmarkViewModel @Inject constructor(
     private val repository: AnimeRepository
 ) : ViewModel() {
     // Flow emitting a list of bookmarked anime
-    val bookmarkedAnime: Flow<List<AnimeEntity>> = repository.getBookmarks()
+    val bookmarkedAnime: Flow<List<AnimeEntity>> = repository.getBookmarkedAnime()
 
     // Toggle the bookmark status for an anime.
     fun toggleBookmark(animeId: Int, isBookmarked: Boolean) {

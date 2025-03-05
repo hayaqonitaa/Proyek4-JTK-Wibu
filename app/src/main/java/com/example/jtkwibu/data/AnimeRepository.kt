@@ -32,11 +32,10 @@ class AnimeRepository @Inject constructor(
         }
     }
 
-    fun getBookmarks(): Flow<List<AnimeEntity>> = animeDao.getBookmarkedAnime()
+    fun getBookmarkedAnime(): Flow<List<AnimeEntity>> = animeDao.getBookmarkedAnime()
 
     suspend fun setBookmark(animeId: Int, isBookmarked: Boolean) {
-        val anime = animeDao.getAnimeById(animeId) ?: return
-        animeDao.update(anime.copy(isBookmarked = isBookmarked))
+        animeDao.updateBookmark(animeId, isBookmarked)
     }
 
     fun searchAnime(query: String): Flow<PagingData<AnimeEntity>> {

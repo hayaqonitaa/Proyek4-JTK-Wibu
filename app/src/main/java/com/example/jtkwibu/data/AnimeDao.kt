@@ -20,4 +20,7 @@ interface AnimeDao {
 
     @Query("SELECT * FROM anime_table WHERE isBookmarked = 1")
     fun getBookmarkedAnime(): Flow<List<AnimeEntity>>
+
+    @Query("UPDATE anime_table SET isBookmarked = :isBookmarked WHERE malId = :animeId")
+    suspend fun updateBookmark(animeId: Int, isBookmarked: Boolean)
 }
