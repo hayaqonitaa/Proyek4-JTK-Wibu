@@ -34,9 +34,6 @@ fun HomeScreen(
     // Collect the paging items from view Model.
     val animeList = viewModel.animeList.collectAsLazyPagingItems()
 
-    // Debugging: Log jumlah item yang dimuat
-    Log.d("HomeScreen", "Jumlah Anime yang Dimuat: ${animeList.itemCount}")
-
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
         modifier = Modifier.fillMaxSize(),
@@ -53,14 +50,11 @@ fun HomeScreen(
 
 @Composable
 fun NetflixAnimeItem(anime: AnimeEntity, onClick: () -> Unit) {
-    // Debugging: Log informasi anime yang akan ditampilkan
-    Log.d("NetflixAnimeItem", "Memuat Anime: ${anime.title} | Image URL: ${anime.imageUrl}")
-
     Card(
         modifier = Modifier
             .padding(4.dp)
             .fillMaxWidth()
-            .aspectRatio(1f) // Ensures the card is square
+            .aspectRatio(1f)
             .clickable {
                 Log.d("NetflixAnimeItem", "Anime diklik: ${anime.title} (ID: ${anime.malId})")
                 onClick()
@@ -78,10 +72,6 @@ fun NetflixAnimeItem(anime: AnimeEntity, onClick: () -> Unit) {
                 onError = { Log.e("AsyncImage", "Gagal Memuat Gambar: ${anime.imageUrl}") },
             )
 
-
-
-
-            // Overlay a gradient at the bottom for better text readability
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
